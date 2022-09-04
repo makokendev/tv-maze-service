@@ -9,7 +9,8 @@ namespace CodingChallenge.CakeBuild.Tasks;
 [TaskName("GitVersionTask")]
 public sealed class GitVersionTask : FrostingTask<BuildContext>
 {
-    public GitVersion GitVersionResult { get; set; }
+    public GitVersion? GitVersionResult { get; set; }
+
     public override void Run(BuildContext context)
     {
         try
@@ -29,7 +30,7 @@ public sealed class GitVersionTask : FrostingTask<BuildContext>
             {
                 context.Information($"Something went wrong while calculating git version. Exception message: {ex.Message}");
             }
-            context.Information("Current branch is " + GitVersionResult.BranchName);
+            context.Information("Current branch is " + GitVersionResult!.BranchName);
             context.Information("MajorMinorPatch: {0}", GitVersionResult.MajorMinorPatch);
             context.Information("FullSemVer: {0}", GitVersionResult.FullSemVer);
             context.Information("context.InformationalVersion: {0}", GitVersionResult.InformationalVersion);

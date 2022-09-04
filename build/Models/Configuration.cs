@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel;
 using AutoMapper;
 using Cake.Common.Diagnostics;
@@ -15,16 +14,12 @@ public class Settings
 {
     public Settings(ICakeContext cakeContext)
     {
-        InitVariables();
-        SetMetadataProperties(cakeContext);
+        ProjectSettingsList = new List<ProjectSettings>();
+        metadata = cakeContext.DeserializeYamlFromFile<MetaData>(new FilePath("../metadata.yaml"));
+        AwsApplication = new AWSAppProject();
         SetAwsAppProject(cakeContext);
         StandardFolders = new StandardFolderSettings(cakeContext);
         DotnetSettings = new DotnetSettings(cakeContext);
-    }
-
-    private void InitVariables()
-    {
-        ProjectSettingsList = new List<ProjectSettings>();
     }
 
     public StandardFolderSettings StandardFolders { get; private set; }
@@ -37,20 +32,18 @@ public class Settings
 
     private void SetMetadataProperties(ICakeContext cakeContext)
     {
-        metadata = cakeContext.DeserializeYamlFromFile<MetaData>(new FilePath("../metadata.yaml"));
     }
     private void PrintProperties(ICakeContext cakeContext,object obj)
     {
         foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(obj))
         {
             string name = descriptor.Name;
-            object value = descriptor.GetValue(obj);
+            object value = descriptor.GetValue(obj)!;
             cakeContext.Information($"{obj.GetType().Name} - Property Name {name} - Value: {value}");
         }
     }
     private void SetAwsAppProject(ICakeContext cakeContext)
     {
-        AwsApplication = new AWSAppProject();
         var configuration = new ConfigurationBuilder()
            .AddEnvironmentVariables().Build();
         configuration.GetSection(Constants.APPLICATION_ENVIRONMENT_VAR_PREFIX).Bind(AwsApplication);

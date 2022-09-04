@@ -3,9 +3,9 @@ namespace CodingChallenge.CakeBuild.Models;
 public class MetaData
 {
 
-    public string Environment { get; set; }
-    public string Version { get; set; }
-    public string Platform { get; set; }
-    public string System { get; set; }
-    public string Subsystem { get; set; }
+    public string Environment { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public string Platform { get; set; } = string.Empty;
+    public string System { get; set; } = string.Empty;
+    public string Subsystem { get; set; } = string.Empty;
 }

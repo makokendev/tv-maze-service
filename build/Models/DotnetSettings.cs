@@ -2,7 +2,9 @@ using Cake.Common;
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNetCore;
 using Cake.Core;
+
 namespace CodingChallenge.CakeBuild.Models;
+
 public class DotnetSettings
 {
     public string DotnetConfiguration { get; private set; }

@@ -6,7 +6,6 @@
 
  <ItemGroup>
   <PackageReference Include="Amazon.CDK"/>
-  <PackageReference Include="Amazon.CDK.AWS.SAM" />
   <PackageReference Include="Amazon.CDK.AWS.IAM" />
   <PackageReference Include="Amazon.CDK.AWS.APIGateway" />
   <PackageReference Include="Amazon.CDK.AWS.SNS"  />
