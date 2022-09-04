@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(AppTargetFramework)</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+ <ItemGroup>
+  <PackageReference Include="Amazon.CDK"/>
+  <PackageReference Include="Amazon.CDK.AWS.SAM" />
+  <PackageReference Include="Amazon.CDK.AWS.IAM" />
+  <PackageReference Include="Amazon.CDK.AWS.APIGateway" />
+  <PackageReference Include="Amazon.CDK.AWS.SNS"  />
+  <PackageReference Include="Amazon.CDK.AWS.SAM"  />
+  <PackageReference Include="Amazon.CDK.AWS.ECR"  />
+  <PackageReference Include="Amazon.CDK.AWS.SNS.Subscriptions"  />
+  <PackageReference Include="Amazon.CDK.AWS.DynamoDB" />
+  <PackageReference Include="Amazon.CDK.AWS.Lambda" />
+ </ItemGroup>
+ <ItemGroup>
+   <ProjectReference Include="..\CodingChallenge.Infrastructure\CodingChallenge.Infrastructure.csproj" />
+ </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(AppTargetFramework)</TargetFramework>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AWSSDK.DynamoDBv2" />
+		<PackageReference Include="AWSSDK.SimpleNotificationService" />
+		<PackageReference Include="AWSSDK.SecurityToken" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+		<PackageReference Include="RestSharp" />
+
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\CodingChallenge.Application\CodingChallenge.Application.csproj"/>
+	</ItemGroup>
+</Project>
