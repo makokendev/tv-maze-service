@@ -11,6 +11,7 @@ using CodingChallenge.Application.TVMaze.Commands.Burn;
 using CodingChallenge.Domain.Entities;
 using System.Net;
 using CodingChallenge.Domain.Entities.TvMaze;
+using CodingChallenge.Application.TVMaze.Queries;
 
 namespace CodingChallenge.Infrastructure.Persistence.TVMazeRecord;
 
@@ -19,6 +20,7 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
     private readonly AmazonSimpleNotificationServiceClient _snsClient;
+
     //TODO - get from CDK project!
     public const string eventTopicSuffix = "eventtopic";
     private const string ProductionType = "Movie";
@@ -38,13 +40,16 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
     {
         var retObj = new TVMazeCastDataResponse();
         var response = await TVMazeCastByShowIdHttpGetCall(id);
+
         if (response == null)
         {
             retObj.IsSuccessful = false;
             _logger.LogInformation($"{id} - response--EXITING. response is null");
             return retObj;
         }
+
         _logger.LogInformation($"{id} - StatusCode response code is {response.StatusCode}");
+
         if (!string.IsNullOrEmpty(response.ErrorMessage))
         {
             _logger.LogInformation($"{id} -  error mesage code is {response.ErrorMessage}");
@@ -60,13 +65,14 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
             retObj.CastList = JsonConvert.DeserializeObject<List<TVMazeCastItem>>(response.Content!)!;
             return retObj;
         }
-        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+
+        if (response.StatusCode == HttpStatusCode.TooManyRequests)
         {
             retObj.IsSuccessful = false;
             retObj.RateLimited = true;
             _logger.LogInformation($"{id} - response--TOOMANY.getting tv maze cast by id :{id} - TOO MANY");
         }
-        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        else if (response.StatusCode == HttpStatusCode.NotFound)
         {
             retObj.IsSuccessful = false;
             retObj.NotFound = true;
@@ -78,6 +84,7 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
             retObj.RateLimited = false;
             _logger.LogInformation($"{id} - response--ERROR.  getting tv maze cast by id :{id} - ERROR");
         }
+
         return retObj;
     }
 
@@ -86,13 +93,14 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
         try
         {
             _logger.LogInformation($"{id} - getting tv maze cast by id");
+
             var options = new RestClientOptions(baseurl)
             {
                 RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
             };
-            var client = new RestClient(options)
-            {
-            };
+
+            var client = new RestClient(options);
+
             var request = new RestRequest($"shows/{id}/cast");
 
             return await client.GetAsync(request);
@@ -164,22 +172,28 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
 
     public async Task AddScrapeTaskAsync(AddScrapeTaskCommand command)
     {
-        _logger.LogDebug($"Burn repo action is being executed... Token Id is {command.StartIndex}");
         var publishRequest = new PublishRequest()
         {
             Message = JsonConvert.SerializeObject(command),
             TopicArn = TopicArn
         };
+
         await _snsClient.PublishAsync(publishRequest);
-        _logger.LogDebug($"{command.StartIndex} - AddScrapeTaskAsync repo action is successfully executed... Index is {command.StartIndex}");
     }
 
     public async Task<TVMazeRecordEntity> GetByIndexAsync(string index)
     {
         _logger.LogDebug($"{index} -Get By Token repo action is being executed... Token Id is {index}");
-        var result = await this.GetAsync(index);
+        var result = await GetAsync(index);
         var mappedEntity = _mapper.Map<TVMazeRecordDataModel, TVMazeRecordEntity>(result);
         _logger.LogDebug($"{index} - Get By Token repo action is successfully executed for token with Id {index}. Returning result");
+        return mappedEntity;
+    }
+
+    public async Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize)
+    {
+        var result = await GetListAsync();
+        var mappedEntity = _mapper.Map<TVMazeRecordDataModel, IEnumerable<TVMazeRecordEntity>>(result);
         return mappedEntity;
     }
 

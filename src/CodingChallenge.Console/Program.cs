@@ -21,6 +21,7 @@ partial class Program
         ConfigureServices(new ServiceCollection());
         var commandParser = serviceProvider!.GetService<TVMazeConsoleRunner>();
         var parser = Parser.Default.ParseArguments<CommandLineOptions>(args);
+
         await parser.WithParsedAsync(async options => await commandParser!.RunOptionsAsync(options));
         await parser.WithNotParsedAsync(async errs => await commandParser!.HandleParseErrorAsync(errs));
     }

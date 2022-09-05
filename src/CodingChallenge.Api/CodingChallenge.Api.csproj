@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Requests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodingChallenge.Application\CodingChallenge.Application.csproj" />
+    <ProjectReference Include="..\CodingChallenge.Infrastructure\CodingChallenge.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

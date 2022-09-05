@@ -7,9 +7,9 @@ using CodingChallenge.Application.Exceptions;
 
 namespace CodingChallenge.Application.TVMaze.Commands.Scrape;
 
-public record ScrapeCommand(int index) : TVMazeScrapeCommandBase(), IRequest<ScrapeCommandResponse>;
+public record ScrapeCommand(int Index) : TVMazeScrapeCommandBase(), IRequest<ScrapeCommandResponse>;
 
-public record ScrapeCommandResponse(int index) : TVMazeScrapeCommandResponseBase()
+public record ScrapeCommandResponse(int Index) : TVMazeScrapeCommandResponseBase()
 {
     public bool CastListEmpty { get; set; }
     public bool NotFound { get; set; }
@@ -32,11 +32,13 @@ public class ScrapeCommandHandler : IRequestHandler<ScrapeCommand, ScrapeCommand
 
     public async Task<ScrapeCommandResponse> Handle(ScrapeCommand request, CancellationToken cancellationToken)
     {
-        var retRec = new ScrapeCommandResponse(request.index);
+        var retRec = new ScrapeCommandResponse(request.Index);
+
         try
         {
-            var result = await _repo.ScrapeAsync(request.index);
-            if(result.CastList == null || !result.CastList.Any()){
+            var result = await _repo.ScrapeAsync(request.Index);
+
+            if (result.CastList == null || !result.CastList.Any()){
                 retRec.CastListEmpty = true;
             }
             if (!result.IsSuccessful)
@@ -54,6 +56,7 @@ public class ScrapeCommandHandler : IRequestHandler<ScrapeCommand, ScrapeCommand
         {
             retRec.ErrorMessage = ex.Message;
         }
+
         return retRec;
     }
 }

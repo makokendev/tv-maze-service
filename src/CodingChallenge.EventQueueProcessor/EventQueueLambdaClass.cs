@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 namespace CodingChallenge.EventQueueProcessor;
+
 public class EventQueueLambdaClass
 {
     public ILogger logger;
@@ -20,6 +21,7 @@ public class EventQueueLambdaClass
     public AWSAppProject awsApplication;
 
     public const int TryCountLimit = 20;
+
     public EventQueueLambdaClass()
     {
         configuration = new ConfigurationBuilder()
@@ -38,8 +40,8 @@ public class EventQueueLambdaClass
     {
         services.AddApplicationBaseDependencies();
         services.AddInfrastructureDependencies(configuration, logger);
-        services.AddSingleton<ILogger>(logger);
-        services.AddSingleton<AWSAppProject>(awsApplication);
+        services.AddSingleton(logger);
+        services.AddSingleton(awsApplication);
 
         services.AddTransient<TVMazeScrapeCommandController, TVMazeScrapeCommandController>();
         services.AddTransient<TVMazeLambdaRunner, TVMazeLambdaRunner>();
@@ -74,53 +76,62 @@ public class EventQueueLambdaClass
                 var taskObject = JsonConvert.DeserializeObject<AddScrapeTaskCommand>(record.Body);
                 var startIndex = Convert.ToInt32(taskObject!.StartIndex);
                 var endIndex = Convert.ToInt32(taskObject.EndIndex);
+                var results = new List<ScrapeCommandResponse>();
                 var tasks = new List<Task>();
+
                 for (int i = startIndex; i <= endIndex; i++)
                 {
                     logger.LogInformation($"{i} - sending scrape command for index {i}");
                     tasks.Add(runner!.SendScrapeCommand(i));
                 }
+
                 await Task.WhenAll(tasks);
-                var results = new List<ScrapeCommandResponse>();
+
                 foreach (var task in tasks)
                 {
                     var result = ((Task<ScrapeCommandResponse>)task).Result;
                     results.Add(result);
-                    logger.LogInformation($"{result.index} - asyncresponse received");
+
+                    logger.LogInformation($"{result.Index} - asyncresponse received");
+
                     if (result.IsSuccess && result.CastListEmpty == true)
                     {
-                        logger.LogInformation($"{result.index} - success call && cast list is empty. We won't try again");
+                        logger.LogInformation($"{result.Index} - success call && cast list is empty. We won't try again");
                         continue;
                     }
+
                     if (!result.IsSuccess && result.NotFound == true)
                     {
-                        logger.LogInformation($"{result.index} - Item Not found. We won't try again");
+                        logger.LogInformation($"{result.Index} - Item Not found. We won't try again");
                         continue;
                     }
+
                     if (!result.IsSuccess)
                     {
-                        logger.LogInformation($"{result.index} -- NOT SUCCESS. Will retry if already not in db or try count not exceeded.");
+                        logger.LogInformation($"{result.Index} -- NOT SUCCESS. Will retry if already not in db or try count not exceeded.");
                         if (taskObject.TryCount < TryCountLimit)
                         {
-                            var indexResult = await runner!.GetTokenByIdAsync(new Application.TVMaze.Queries.Token.GetTVMazeItemByIndexQuery(result.index.ToString()));
+                            var indexResult = await runner!.GetItemByIdAsync(new Application.TVMaze.Queries.GetTVMazeItemByIndexQuery(result.Index.ToString()));
                             if (indexResult == null)
                             {
-                                logger.LogInformation($"{result.index} -- Item is not in database");
-                                var newOrder = new AddScrapeTaskCommand(result.index, result.index, taskObject.TryCount + 1);
-                                logger.LogInformation($"{result.index} - Try Count -> {taskObject.TryCount} - Adding a new task for a failed task. Id -> {result.index}.");
+                                logger.LogInformation($"{result.Index} -- Item is not in database");
+
+                                var newOrder = new AddScrapeTaskCommand(result.Index, result.Index, taskObject.TryCount + 1);
+                                logger.LogInformation($"{result.Index} - Try Count -> {taskObject.TryCount} - Adding a new task for a failed task. Id -> {result.Index}.");
+
                                 await runner.AddScrapeTaskAsync(newOrder);
                             }
                             else
                             {
-                                logger.LogInformation($"{result.index} -- Item already exists in database");
+                                logger.LogInformation($"{result.Index} -- Item already exists in database");
                             }
                         }else{
-                            logger.LogInformation($"{result.index} -- Try Count limit exceeded.");
+                            logger.LogInformation($"{result.Index} -- Try Count limit exceeded.");
                         }
                     }
                     else
                     {
-                        logger.LogInformation($"{result.index} -- Saved in DB!");
+                        logger.LogInformation($"{result.Index} -- Saved in DB!");
                     }
                 }
             }

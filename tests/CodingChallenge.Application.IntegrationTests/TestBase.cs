@@ -38,10 +38,8 @@ public class TestBase
         var debugLogger = new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider().CreateLogger("testbase");
         services.AddApplicationBaseDependencies();
         services.AddInfrastructureDependencies(Configuration!, debugLogger);
-        services.AddSingleton<ILogger>(Logger!);
-        services.AddSingleton<AWSAppProject>(awsApplication!);
-        //services.AddTransient<NFTCommandController, NFTCommandController>();
-        //services.AddTransient<NFTConsoleRunner, NFTConsoleRunner>();
+        services.AddSingleton(Logger!);
+        services.AddSingleton(awsApplication!);
         ServiceProvider = services.BuildServiceProvider();
     }
 

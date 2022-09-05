@@ -1,11 +1,9 @@
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using CodingChallenge.Application.Interfaces;
 using CodingChallenge.Domain.Entities.TvMaze;
 using MediatR;
 
-namespace CodingChallenge.Application.TVMaze.Queries.Token;
+namespace CodingChallenge.Application.TVMaze.Queries;
 
 public record GetTVMazeItemByIndexQuery(string Index) : IRequest<TVMazeRecordDto>;
 

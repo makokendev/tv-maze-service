@@ -20,11 +20,11 @@ public static class JsonCommandExtensions
         var tryParseResult = Enum.TryParse(transactionType, true, out TVMazeCommandType transactionTypeResult);
         switch (transactionTypeResult)
         {
-            case TVMazeCommandType.Scrap:
+            case TVMazeCommandType.Scrape:
                 {
                     return JsonConvert.DeserializeObject<ScrapeCommand>(itemJsonText)!;
                 }
-            case TVMazeCommandType.Burn:
+            case TVMazeCommandType.Schedule:
                 {
                     return JsonConvert.DeserializeObject<AddScrapeTaskCommand>(itemJsonText)!;
                 }

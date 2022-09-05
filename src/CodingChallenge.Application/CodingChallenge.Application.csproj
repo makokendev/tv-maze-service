@@ -6,15 +6,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
 		<PackageReference Include="MediatR" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" />
-		<PackageReference Include="Microsoft.Extensions.Logging"/>
+		<PackageReference Include="Microsoft.Extensions.Logging" />
 		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="FluentValidation"/>
+		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\CodingChallenge.Domain\CodingChallenge.Domain.csproj"/>
+		<ProjectReference Include="..\CodingChallenge.Domain\CodingChallenge.Domain.csproj" />
 	</ItemGroup>
 </Project>

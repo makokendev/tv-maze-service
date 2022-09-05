@@ -1,10 +1,9 @@
-using System.Threading.Tasks;
 using CodingChallenge.Application.TVMaze.Commands.Burn;
-using CodingChallenge.Application.TVMaze.Commands.Scrape;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace CodingChallenge.Console;
+
 public class TVMazeScrapeCommandController
 {
     private readonly ISender _mediator;
@@ -20,6 +19,6 @@ public class TVMazeScrapeCommandController
     public async Task<AddScrapeTaskCommandResponse> AddScrapeTaskAsync(AddScrapeTaskCommand addScrapeTaskCommand)
     {
         _logger.LogDebug($"Add scrape task command is called for token id");
-        return await _mediator.Send<AddScrapeTaskCommandResponse>(addScrapeTaskCommand);
+        return await _mediator.Send(addScrapeTaskCommand);
     }
 }

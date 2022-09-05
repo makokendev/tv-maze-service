@@ -9,7 +9,8 @@ namespace CodingChallenge.Infrastructure.Persistence.TVMazeRecord;
 
 public class TVMazeRecordDataModelTVMazeRecordEntityResolver : IValueResolver<TVMazeRecordDataModel, TVMazeRecordEntity, TvMazeRecord>
 {
-    public TvMazeRecord Resolve(TVMazeRecordDataModel source, TVMazeRecordEntity destination, TvMazeRecord member, ResolutionContext context) => new TvMazeRecord(Convert.ToInt32(source.TVMazeIndex));
+    public TvMazeRecord Resolve(TVMazeRecordDataModel source, TVMazeRecordEntity destination, TvMazeRecord member, ResolutionContext context) 
+        => new(Convert.ToInt32(source.TVMazeIndex));
 }
 public class TVMazeRecordDataModel : AuditableEntity, IMapFrom<TVMazeRecordEntity>
 {
