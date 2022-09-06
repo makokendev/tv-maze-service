@@ -143,7 +143,7 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
                 _logger.LogInformation($"{index} - cast list is empty");
                 return result;
             }
-            var SortedList = result.CastList.OrderBy(o=>o.person.birthday).ToList();
+            var SortedList = result.CastList.OrderByDescending(o=>o.person.birthday).ToList();
             var entity = new TVMazeRecordEntity()
             {
                 Index = index,
