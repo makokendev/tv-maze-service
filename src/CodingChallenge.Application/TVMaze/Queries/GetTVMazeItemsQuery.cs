@@ -21,7 +21,8 @@ public class GetTVMazeItemsQueryHandler : IRequestHandler<GetTVMazeItemsQuery, P
     public async Task<PagedList<TVMazeRecordDto>> Handle(GetTVMazeItemsQuery request, CancellationToken cancellationToken)
     {
         var responseEntity = await repo.GetItemListAsync(request.PageNumber, request.PageSize);
-
-        return _mapper.Map<IEnumerable<TVMazeRecordEntity>, PagedList<TVMazeRecordDto>>(responseEntity);
+        var list = responseEntity.ToList();
+        var dtList = _mapper.Map<List<TVMazeRecordEntity>,List<TVMazeRecordDto>>(list);
+        return new PagedList<TVMazeRecordDto>(dtList,responseEntity.ToList().Count,request.PageNumber,request.PageSize);
     }
 }

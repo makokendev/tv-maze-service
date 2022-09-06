@@ -10,7 +10,7 @@ public interface ITVMazeRecordRepository
     
     Task<TVMazeRecordEntity> GetByIndexAsync(string index);
     
-    Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize);
+    Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize,string? paginationToken=null);
     
     Task AddScrapeTaskAsync(AddScrapeTaskCommand command);
     

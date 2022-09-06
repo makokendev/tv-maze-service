@@ -4,6 +4,7 @@ using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.SNS;
+using CodingChallenge.Cdk.Extensions;
 using CodingChallenge.Infrastructure;
 using CodingChallenge.Infrastructure.Extensions;
 using CodingChallenge.Infrastructure.Persistence.TVMazeRecord;
@@ -45,7 +46,7 @@ public sealed class ApiGatewayNestedStack : Amazon.CDK.NestedStack
             Deployment = apiDeployment,
         });
     }
-
+   
 
     private Method SetWalletEndpoint(AWSAppProject awsApplication, IRestApi api, IRole apigwRole)
     {
@@ -96,6 +97,7 @@ public sealed class ApiGatewayNestedStack : Amazon.CDK.NestedStack
             Path = $"{this.Account}/{eventTopic.TopicName}",
             IntegrationHttpMethod = "POST",
             Options = new IntegrationOptions()
+
             {
                 CredentialsRole = apigwRole,
                 PassthroughBehavior = PassthroughBehavior.NEVER,

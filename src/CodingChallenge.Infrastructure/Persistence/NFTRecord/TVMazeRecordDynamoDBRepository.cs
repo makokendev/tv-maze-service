@@ -11,7 +11,6 @@ using CodingChallenge.Application.TVMaze.Commands.Burn;
 using CodingChallenge.Domain.Entities;
 using System.Net;
 using CodingChallenge.Domain.Entities.TvMaze;
-using CodingChallenge.Application.TVMaze.Queries;
 
 namespace CodingChallenge.Infrastructure.Persistence.TVMazeRecord;
 
@@ -123,7 +122,7 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
 
     public async Task<TVMazeCastDataResponse> ScrapeAsync(int index)
     {
-        var item = await this.GetAsync(index.ToString());
+        var item = await this.GetAsync(index);
         if (item?.CastList.Any() == true)
         {
             _logger.LogWarning($"{index} already exists! Dynamodb repo");
@@ -152,6 +151,7 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
             };
 
             var dataModel = _mapper.Map<TVMazeRecordEntity, TVMazeRecordDataModel>(entity);
+            _logger.LogInformation($"dataModel index is -> {dataModel.TVMazeIndex}");
             dataModel.Created = DateTime.UtcNow;
             await this.SaveAsync(new List<TVMazeRecordDataModel>(){
             dataModel
@@ -190,10 +190,11 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
         return mappedEntity;
     }
 
-    public async Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize)
+    public async Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize,string? paginationToken=null)
     {
-        var result = await GetListAsync();
-        var mappedEntity = _mapper.Map<TVMazeRecordDataModel, IEnumerable<TVMazeRecordEntity>>(result);
+        var filterValue = (pageNumber-1)*pageSize;
+        var result = await GetListAsync(pageSize,paginationToken);
+        var mappedEntity = _mapper.Map<List<TVMazeRecordDataModel>, IEnumerable<TVMazeRecordEntity>>(result.Item1);
         return mappedEntity;
     }
 

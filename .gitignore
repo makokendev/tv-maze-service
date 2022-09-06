@@ -592,16 +592,10 @@ dist/**
 .env
 *.ncrunchproject
 
-LeasePlan.CarNext.Services.Hydra.xml
-src/LeasePlan.CarNext.Hydra.ApiClientApp/appsettings.MRW0445.json
-/src/LeasePlan.CarNext.Services.Hydra.ManagementTool/App_Data/LeasePlan.CarNext.Services.Hydra.ManagementTool/LeasePlan.CarNext.Services.Hydra.ManagementTool.xml
-/src/LeasePlan.CarNext.Services.Hydra.ManagementTool/App_Data/LeasePlan.CarNext.Services.Hydra.ManagementTool.xml
-/src/CarNext.Services.Hydra.ManagementTool/App_Data/LeasePlan.CarNext.Services.Hydra.ManagementTool.xml
-/src/CarNext.Services.Hydra.ManagementTool/CarNext.Services.Hydra.ManagementTool.csproj.DotSettings
-/src/CarNext.Hydra.VehicleDetailsMigration/CarNext.Hydra.VehicleDetailsMigration.csproj.DotSettings
-src/LeasePlan.CarNext.Services.Hydra.sln.startup.json
 
 # NServiceBus.Persistence.Sql 5.0.0 introduced these folders
 MsSqlServer/
 .ionide
-/src/CarNext.Hydra.sln.startup.json
+build/tools
+.cdk
+build/tools/

@@ -25,7 +25,7 @@ public sealed class DatabaseStack : Stack
         };
         dynamoDbTableProps.PartitionKey = new Amazon.CDK.AWS.DynamoDB.Attribute()
         {
-            Type = Amazon.CDK.AWS.DynamoDB.AttributeType.STRING,
+            Type = Amazon.CDK.AWS.DynamoDB.AttributeType.NUMBER,
             Name = nameof(Infrastructure.Persistence.TVMazeRecord.TVMazeRecordDataModel.TVMazeIndex)
         };
 

@@ -17,5 +17,6 @@
  </ItemGroup>
  <ItemGroup>
    <ProjectReference Include="..\CodingChallenge.Infrastructure\CodingChallenge.Infrastructure.csproj" />
+   <ProjectReference Include="..\CodingChallenge.GetItemsLambda\CodingChallenge.GetItemsLambda.csproj" />
  </ItemGroup>
 </Project>

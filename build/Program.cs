@@ -78,6 +78,14 @@ public class InfraStackDeployTask : FrostingTask
 public class DatabaseStackDeployTask : FrostingTask
 {
 }
+[TaskName("ApiDeploy")]
+[IsDependentOn(typeof(DotnetBuildTask))]
+[IsDependentOn(typeof(DockerBuildTask))]
+[IsDependentOn(typeof(DockerEcrPushTask))]
+[IsDependentOn(typeof(CdkApiStackDeployTask))]
+public class ApiStackDeployTask : FrostingTask
+{
+}
 [TaskName("Deploy")]
 [IsDependentOn(typeof(DotnetBuildTask))]
 [IsDependentOn(typeof(DockerBuildTask))]

@@ -42,6 +42,21 @@ public sealed class SetupTask : FrostingTask<BuildContext>
         });
         context.Config.ProjectSettingsList.Add(new ProjectSettings()
         {
+            ProjectName = "CodingChallenge.GetItemsLambda",
+            PublishProject = true,
+            DockerImageSettings = new System.Collections.Generic.List<ProjectSettings.DockerImageSetting>(){
+                new ProjectSettings.DockerImageSetting(){
+                    AwsAccountNumber =awsAccountNumber,
+                    AwsRegion = awsRegion,
+                    DockerFileName = "Dockerfile-Lambda",
+                    DockerRepoNameSuffix = InfraStack.GetListEcrRepoSuffix,
+                    RunDockerBuild= true,
+                    RunDockerPush = true
+                }
+            }
+        });
+        context.Config.ProjectSettingsList.Add(new ProjectSettings()
+        {
             ProjectName = "CodingChallenge.Cdk",
             PublishProject = true,
             RunCdkDeploy = true

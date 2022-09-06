@@ -34,11 +34,32 @@ public class ApplicationDynamoDBBase<T> : DynamoDBRepository, IApplicationDynamo
         var result = await Context.LoadAsync<T>(id, DynamoDBOperationConfig);
         return result;
     }
-
-    public async Task<T> GetListAsync()
+    public async Task<T> GetAsync(int id)
     {
-        var result = await Context.LoadAsync<T>(DynamoDBOperationConfig);
+        var result = await Context.LoadAsync<T>(id, DynamoDBOperationConfig);
         return result;
+    }
+
+    public async Task<Tuple<List<T>,string>> GetListAsync(int limit, string? paginationToken = null)
+    {
+
+        var table = Context.GetTargetTable<T>(DynamoDBOperationConfig);
+
+        var config = new ScanOperationConfig();
+        config.Limit = limit;
+        //config. Filter = new QueryFilter(sortKeyField, QueryOperator.Equal, 2012);
+        if (paginationToken != null)
+        {
+            config.PaginationToken = paginationToken;
+        }
+        var query = table.Scan(new ScanFilter(){
+
+        });
+        var paginationToken2 = query.PaginationToken;
+        var items = await query.GetNextSetAsync();
+        IEnumerable < T > employees = Context.FromDocuments < T > (items);
+        var returnList = employees.ToList();
+        return new Tuple<List<T>, string>(returnList,paginationToken2);
     }
 
     public async Task<List<T>> GetBySortKeyAsync(string sortKeyField, string sortKeyValue)

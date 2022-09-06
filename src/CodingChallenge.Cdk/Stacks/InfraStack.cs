@@ -11,6 +11,7 @@ namespace CodingChallenge.Cdk.Stacks;
 public sealed class InfraStack : Stack
 {
     public const string EcrRepoSuffix = "processor-lambda";
+    public const string GetListEcrRepoSuffix = "getlist-lambda";
     public const string eventTopicSuffix = "eventtopic";
     // public const string dynamoDBTableSuffix = nameof(Infrastructure.Persistence.TVMazeRecord.TVMazeRecordDataModel);
     public const string arnSuffixValue = "arn";
@@ -18,12 +19,13 @@ public sealed class InfraStack : Stack
     public InfraStack(Construct parent, string id, IStackProps props, AWSAppProject awsApplication) : base(parent, id, props)
     {
         CreateECRRepoForEventProcessor(awsApplication);
+        CreateECRRepoForGetList(awsApplication);
         CreateEventTopic(awsApplication);
         SetupDocumentationS3Bucket(awsApplication);
     }
 
     //public static string GetDocBucketName(AwsAppProject awsApplication) => awsApplication.GetResourceName("docbucket");
-    public static string GetDocBucketName(AWSAppProject awsApplication) => $"rtlassignment.{awsApplication.DomainName}";
+    public static string GetDocBucketName(AWSAppProject awsApplication) => $"{awsApplication.System}{awsApplication.Subsystem}.{awsApplication.DomainName}";
     private void SetupDocumentationS3Bucket(AWSAppProject awsApplication)
     {
         var bucketName = GetDocBucketName(awsApplication);
@@ -32,9 +34,9 @@ public sealed class InfraStack : Stack
             BucketName = bucketName,
             PublicReadAccess = true,
             WebsiteIndexDocument = "index.html"
-            
+
         });
-         awsApplication.SetCfOutput(this, $"docbucket-websiteurl", documentationBucket.BucketWebsiteUrl);
+        awsApplication.SetCfOutput(this, $"docbucket-websiteurl", documentationBucket.BucketWebsiteUrl);
     }
 
     private void CreateEventTopic(AWSAppProject awsApplication)
@@ -60,6 +62,18 @@ public sealed class InfraStack : Stack
         });
         awsApplication.SetCfOutput(this, $"{EcrRepoSuffix}-{arnSuffixValue}", eventProcessorECRRepo.RepositoryArn);
         awsApplication.SetCfOutput(this, $"{EcrRepoSuffix}-name", eventProcessorECRRepo.RepositoryName);
+
+    }
+    public void CreateECRRepoForGetList(AWSAppProject awsApplication)
+    {
+        var repoName = awsApplication.GetResourceName(GetListEcrRepoSuffix);
+        var eventProcessorECRRepo = new Repository(this, repoName, new RepositoryProps()
+        {
+            RepositoryName = repoName
+        });
+        awsApplication.SetCfOutput(this, $"{GetListEcrRepoSuffix}-{arnSuffixValue}", eventProcessorECRRepo.RepositoryArn);
+        awsApplication.SetCfOutput(this, $"{GetListEcrRepoSuffix}-name", eventProcessorECRRepo.RepositoryName);
+
     }
 }
 

@@ -2,6 +2,7 @@
 using CodingChallenge.Cdk.Extensions;
 using CodingChallenge.Cdk.Stacks;
 using CodingChallenge.Infrastructure;
+using CodingChallenge.Infrastructure.Extensions;
 
 namespace CodingChallenge.Cdk;
 
@@ -27,6 +28,8 @@ public sealed class Program
             var infraStack = new InfraStack(app, awsApplication.GetDefaultInfraStackName(), new StackProps() { Env = makeEnv() }, awsApplication);
             var mainStack = new MainStack(app, awsApplication.GetDefaultMainStackName(), new StackProps() { Env = makeEnv() }, awsApplication);
             var databaseStack = new DatabaseStack(app, awsApplication.GetDefaultDatabaseStackName(), new StackProps() { Env = makeEnv() }, awsApplication);
+            var apiStack = new ApiStack(app, awsApplication.GetResourceName("apistack"), new StackProps() { Env = makeEnv() }, awsApplication);
+            SetStackTags(awsApplication, apiStack);
             SetStackTags(awsApplication, mainStack);
             SetStackTags(awsApplication, infraStack);
             SetStackTags(awsApplication, databaseStack);

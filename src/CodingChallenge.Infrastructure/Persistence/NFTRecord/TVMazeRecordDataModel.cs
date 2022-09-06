@@ -17,11 +17,11 @@ public class TVMazeRecordDataModel : AuditableEntity, IMapFrom<TVMazeRecordEntit
 
     //[DynamoDBRangeKey]
     [DynamoDBHashKey]
-    public string TVMazeIndex { get; set; } = string.Empty;
+    public int TVMazeIndex { get; set; } = 0;
     [DynamoDBProperty]
     public string TVMazeType { get; set; } = string.Empty;
     [DynamoDBProperty]
-    public IEnumerable<TVMazeCastItem> CastList { get; set; } = Enumerable.Empty<TVMazeCastItem>();
+    public List<TVMazeCastItem> CastList { get; set; } = new List<TVMazeCastItem>();
 
 
     public void Mapping(Profile profile)

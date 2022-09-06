@@ -1,4 +1,5 @@
 using CodingChallenge.Application.Exceptions;
+using CodingChallenge.Application.TVMaze.Commands.Burn;
 using CommandLine;
 using Microsoft.Extensions.Logging;
 
@@ -6,7 +7,7 @@ namespace CodingChallenge.Console;
 
 public class TVMazeConsoleRunner
 {
-    public const int TotalNumberOfRecords = 2000;
+    public const int TotalNumberOfRecords = 100;
     public const int ItemPerMessage = 10;
     ILogger _logger;
     TVMazeScrapeCommandController _TVMazeRecordCommandHandler;
@@ -21,7 +22,7 @@ public class TVMazeConsoleRunner
     {
         try
         {
-            await AddScrapeTasksAsync();
+            await SendInScrapeOrder();
         }
         catch (RequestValidationException rve)
         {
@@ -41,22 +42,31 @@ public class TVMazeConsoleRunner
         }
     }
 
-    private async Task AddScrapeTasksAsync()
+    private async Task SendInScrapeOrder()
     {
-        _logger.LogDebug($"Starting to add scrape tasks...");
-
+        _logger.LogDebug($"file is being passed...");
         var lastId = 0;
-
+        var tasks = new List<Task>();
+        _logger.LogInformation($"starting to end tasks ");
         for (int i = 1; i <= TotalNumberOfRecords; i++)
         {
             if (i % ItemPerMessage == 0)
             {
                 _logger.LogInformation($"{i} - modules ok last id {lastId}, index ");
-                await _TVMazeRecordCommandHandler.AddScrapeTaskAsync(
-                    new Application.TVMaze.Commands.Burn.AddScrapeTaskCommand(lastId+1,i,0));
+                tasks.Add(_TVMazeRecordCommandHandler.AddScrapeTaskAsync(new Application.TVMaze.Commands.Burn.AddScrapeTaskCommand((lastId + 1), i, 0)));
                 lastId = i;
             }
         }
+        _logger.LogInformation($"all the orders are given ");
+        await Task.WhenAll(tasks);
+        var results = new List<AddScrapeTaskCommandResponse>();
+         _logger.LogInformation($"going over results");
+        foreach (var task in tasks)
+        {
+            var result = ((Task<AddScrapeTaskCommandResponse>)task).Result;
+            _logger.LogInformation($"got the result... {result.StartIndex} - {result.EndIndex}");
+        }
+        _logger.LogInformation($"should be all done.");
     }
 
     public async Task HandleParseErrorAsync(IEnumerable<Error> errs)

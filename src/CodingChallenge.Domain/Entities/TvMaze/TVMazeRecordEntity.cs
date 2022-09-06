@@ -6,5 +6,5 @@ public class TVMazeRecordEntity : AuditableEntity
 {
     public int Index { get; set; }
     public string ProductionType { get; set; } = string.Empty;
-    public IEnumerable<TVMazeCastItem> CastList { get; set; } = Enumerable.Empty<TVMazeCastItem>();
+    public List<TVMazeCastItem> CastList { get; set; } = new List<TVMazeCastItem>();
 }

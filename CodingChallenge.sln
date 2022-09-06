@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingChallenge.Api", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingChallenge.Api.UnitTests", "tests\CodingChallenge.Api.UnitTests\CodingChallenge.Api.UnitTests.csproj", "{65630421-EDC3-4A57-8E40-6454D8124C8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingChallenge.GetItemsLambda", "src\CodingChallenge.GetItemsLambda\CodingChallenge.GetItemsLambda.csproj", "{62914380-F36B-4B53-B07B-E3AD611FAEC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{65630421-EDC3-4A57-8E40-6454D8124C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65630421-EDC3-4A57-8E40-6454D8124C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65630421-EDC3-4A57-8E40-6454D8124C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62914380-F36B-4B53-B07B-E3AD611FAEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62914380-F36B-4B53-B07B-E3AD611FAEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62914380-F36B-4B53-B07B-E3AD611FAEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62914380-F36B-4B53-B07B-E3AD611FAEC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{A4EBB675-F211-4B99-BEC4-ABFD9BA3E651} = {5A2249DF-3BEA-46C1-904C-7A45D6649A38}
 		{2EADA9F6-8B63-4023-BE79-EF40D4611EA5} = {EAED48B3-4A7C-4250-A7DC-A157FDCBB1DC}
 		{65630421-EDC3-4A57-8E40-6454D8124C8E} = {5A2249DF-3BEA-46C1-904C-7A45D6649A38}
+		{62914380-F36B-4B53-B07B-E3AD611FAEC9} = {EAED48B3-4A7C-4250-A7DC-A157FDCBB1DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F31D6BC2-7D3C-4B91-9AEC-B041559E862D}

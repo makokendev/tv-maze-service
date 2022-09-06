@@ -55,6 +55,9 @@ public class ScrapeCommandHandler : IRequestHandler<ScrapeCommand, ScrapeCommand
         catch (TVMazeItemAlreadyExistsException ex)
         {
             retRec.ErrorMessage = ex.Message;
+        }catch(Exception ex){
+            _logger.LogWarning($"exception handling scrap command. {ex.Message} -- {ex.InnerException} -- {ex.StackTrace}");    
+            throw;
         }
 
         return retRec;
