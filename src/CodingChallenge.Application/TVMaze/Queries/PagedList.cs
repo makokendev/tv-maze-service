@@ -18,7 +18,7 @@ public class PagedList<T>
         PaginationToken = paginationToken;
         //CurrentPage = pageNumber;
         //TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        items = new List<T>(items);
+        Items = new List<T>(items);
     }
     // public async static Task<PagedList<T>> ToPagedListAsync(IQueryable<T> source,  int pageSize,string? paginationToken=null)
     // {
