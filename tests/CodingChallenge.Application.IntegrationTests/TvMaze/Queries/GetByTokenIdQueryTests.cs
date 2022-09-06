@@ -11,6 +11,6 @@ public class GetByTokenIdQueryTests : CQRSTestBase
         //var getIndex = await GetItemByIndexCommandAsync(scrapeResponse.Index);
         var getList = await GetItemListAsync(5);
 
-        Assert.Equal(getList.TotalCount,1);
+        Assert.NotEqual(getList.PageSize.ToString(),getList.PaginationToken);
     }
 }

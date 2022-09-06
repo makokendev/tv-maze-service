@@ -191,13 +191,13 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
         return mappedEntity;
     }
 
-    public async Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageSize,string? paginationToken=null)
+    public async Task<Tuple<List<TVMazeRecordEntity>,string>> GetItemListAsync(int pageSize,string? paginationToken=null)
     {
         _logger.LogInformation($"page size is {pageSize}");
         _logger.LogInformation($"paginationToken is {paginationToken}");
         var result = await GetListAsync(pageSize,paginationToken);
-        var mappedEntity = _mapper.Map<List<TVMazeRecordDataModel>, IEnumerable<TVMazeRecordEntity>>(result.Item1);
-        return mappedEntity;
+        var mappedEntity = _mapper.Map<List<TVMazeRecordDataModel>, List<TVMazeRecordEntity>>(result.Item1);
+        return new Tuple<List<TVMazeRecordEntity>, string>(mappedEntity,result.Item2);
     }
 
 }
