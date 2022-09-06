@@ -15,7 +15,7 @@ public sealed class RunConsoleAppCommandsTask : FrostingTask<BuildContext>
     private void RunReadFileCommand(BuildContext context)
     {
         var transactionFileFullPath = Path.Combine(context.Config.StandardFolders.RootFullPath, "transactions.json");
-        var inlineJson = "'{\"Type\":\"Mint\",\"TokenId\":\"0xD000000000000000000000000000000000000000\",\"Address\":\"0x1000000000000000000000000000000000000000\"}'";
+        //var inlineJson = "'{\"Type\":\"Mint\",\"TokenId\":\"0xD000000000000000000000000000000000000000\",\"Address\":\"0x1000000000000000000000000000000000000000\"}'";
         RunConsoleApplicationCommand(context, $"");
         // RunConsoleApplicationCommand(context, "--nft 0xA000000000000000000000000000000000000000");
         // RunConsoleApplicationCommand(context, "--nft 0xB000000000000000000000000000000000000000");

@@ -7,12 +7,12 @@ namespace CodingChallenge.Application.Interfaces;
 public interface ITVMazeRecordRepository
 {
     Task<TVMazeCastDataResponse> GetTVMazeCastById(int id);
-    
+
     Task<TVMazeRecordEntity> GetByIndexAsync(string index);
-    
-    Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize,string? paginationToken=null);
-    
+
+    Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageSize, string? paginationToken = null);
+
     Task AddScrapeTaskAsync(AddScrapeTaskCommand command);
-    
-    Task<TVMazeCastDataResponse> ScrapeAsync(int index);   
+
+    Task<TVMazeCastDataResponse> ScrapeAsync(int index);
 }

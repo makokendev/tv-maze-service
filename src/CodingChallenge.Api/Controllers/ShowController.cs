@@ -57,7 +57,7 @@ public class ShowController : Controller
     [FromServices] IMapper<PagedList<TVMazeRecordDto>, ShowListResponse> mapper,
     CancellationToken cancellationToken)
     {
-        var shows = await _mediator.Send(new GetTVMazeItemsQuery(pageNumber, pageSize), cancellationToken);
+        var shows = await _mediator.Send(new GetTVMazeItemsQuery(pageNumber, ""), cancellationToken);
 
         if (shows == null)
         {

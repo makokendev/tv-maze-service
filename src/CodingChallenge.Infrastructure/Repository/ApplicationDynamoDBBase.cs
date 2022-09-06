@@ -40,7 +40,7 @@ public class ApplicationDynamoDBBase<T> : DynamoDBRepository, IApplicationDynamo
         return result;
     }
 
-    public async Task<Tuple<List<T>,string>> GetListAsync(int limit, string? paginationToken = null)
+    public async Task<Tuple<List<T>, string>> GetListAsync(int limit, string? paginationToken = null)
     {
 
         var table = Context.GetTargetTable<T>(DynamoDBOperationConfig);
@@ -48,18 +48,16 @@ public class ApplicationDynamoDBBase<T> : DynamoDBRepository, IApplicationDynamo
         var config = new ScanOperationConfig();
         config.Limit = limit;
         //config. Filter = new QueryFilter(sortKeyField, QueryOperator.Equal, 2012);
-        if (paginationToken != null)
+        if (!string.IsNullOrWhiteSpace(paginationToken))
         {
             config.PaginationToken = paginationToken;
         }
-        var query = table.Scan(new ScanFilter(){
-
-        });
+        var query = table.Scan(config);
         var paginationToken2 = query.PaginationToken;
         var items = await query.GetNextSetAsync();
-        IEnumerable < T > employees = Context.FromDocuments < T > (items);
+        IEnumerable<T> employees = Context.FromDocuments<T>(items);
         var returnList = employees.ToList();
-        return new Tuple<List<T>, string>(returnList,paginationToken2);
+        return new Tuple<List<T>, string>(returnList, paginationToken2);
     }
 
     public async Task<List<T>> GetBySortKeyAsync(string sortKeyField, string sortKeyValue)

@@ -57,6 +57,9 @@ public class ApiGatewayLambdaClass
 
     public async Task<APIGatewayProxyResponse> GetListHandlerAsync(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
     {
+        const string pTokenKey = "pagetoken";
+        const string sizeKey = "size";
+
         try
         {
             var runner = serviceProvider.GetService<TVMazeLambdaRunner>();
@@ -65,17 +68,24 @@ public class ApiGatewayLambdaClass
                 logger.LogInformation("runner is null");
                 throw new NullReferenceException("runner is null... TVMazeLambdaRunner is not mapped");
             }
-            var index = 0;
-            var size = 0;
-            Int32.TryParse(apigProxyEvent.QueryStringParameters?["index"], out index);
-            Int32.TryParse(apigProxyEvent.QueryStringParameters?["size"], out size);
+            int size=0;
+            string? sizeString = null;
+            string? pToken = null;
+            apigProxyEvent.QueryStringParameters.TryGetValue(pTokenKey, out pToken);
+            apigProxyEvent.QueryStringParameters.TryGetValue(sizeKey, out sizeString);
             //todo - I know this sucks
-            if (size == 0)
+            if (sizeString != null)
+            {
+                Int32.TryParse(sizeString, out size);
+            }
+            if (size < 0)
             {
                 size = 10;
             }
-
-            var paginatedResponse = await runner.GetList(new Application.TVMaze.Queries.GetTVMazeItemsQuery(index, size));
+            if(string.IsNullOrWhiteSpace(pToken)){
+                pToken = null;
+            }
+            var paginatedResponse = await runner.GetList(new Application.TVMaze.Queries.GetTVMazeItemsQuery(size, pToken));
             return SuccessResponse(paginatedResponse);
         }
         catch (Exception ex)

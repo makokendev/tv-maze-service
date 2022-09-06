@@ -7,9 +7,10 @@ public class GetByTokenIdQueryTests : CQRSTestBase
     [Fact]
     public async Task GetItemByIdQueryShouldSucceed()
     {
-        var scrapeResponse = await SendScrapeCommandAsync(1);
-        var getIndex = await GetItemByIndexCommandAsync(scrapeResponse.Index);
+        //var scrapeResponse = await SendScrapeCommandAsync(1);
+        //var getIndex = await GetItemByIndexCommandAsync(scrapeResponse.Index);
+        var getList = await GetItemListAsync(5);
 
-        Assert.Equal(scrapeResponse.Index,getIndex.Index);
+        Assert.Equal(getList.TotalCount,1);
     }
 }

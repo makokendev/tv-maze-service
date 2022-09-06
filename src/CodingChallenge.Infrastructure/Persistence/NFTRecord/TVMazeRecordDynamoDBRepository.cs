@@ -143,10 +143,11 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
                 _logger.LogInformation($"{index} - cast list is empty");
                 return result;
             }
+            var SortedList = result.CastList.OrderBy(o=>o.person.birthday).ToList();
             var entity = new TVMazeRecordEntity()
             {
                 Index = index,
-                CastList = result.CastList,
+                CastList = SortedList,
                 ProductionType = ProductionType
             };
 
@@ -190,9 +191,10 @@ public class TVMazeRecordDynamoDBRepository : ApplicationDynamoDBBase<TVMazeReco
         return mappedEntity;
     }
 
-    public async Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageNumber, int pageSize,string? paginationToken=null)
+    public async Task<IEnumerable<TVMazeRecordEntity>> GetItemListAsync(int pageSize,string? paginationToken=null)
     {
-        var filterValue = (pageNumber-1)*pageSize;
+        _logger.LogInformation($"page size is {pageSize}");
+        _logger.LogInformation($"paginationToken is {paginationToken}");
         var result = await GetListAsync(pageSize,paginationToken);
         var mappedEntity = _mapper.Map<List<TVMazeRecordDataModel>, IEnumerable<TVMazeRecordEntity>>(result.Item1);
         return mappedEntity;
