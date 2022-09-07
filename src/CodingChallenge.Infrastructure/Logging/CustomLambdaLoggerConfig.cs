@@ -1,7 +1,8 @@
 ﻿using CodingChallenge.Application;
 using Microsoft.Extensions.Logging;
 
-namespace CodingChallenge.GetItemsLambda.Logger;
+namespace CodingChallenge.Infrastructure.Logging;
+
 public class CustomLambdaLoggerConfig
 {
     public LogLevel LogLevel { get; set; } = LogLevel.Warning;

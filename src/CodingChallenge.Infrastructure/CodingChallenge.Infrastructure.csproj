@@ -8,7 +8,10 @@
 		<PackageReference Include="AWSSDK.DynamoDBv2" />
 		<PackageReference Include="AWSSDK.SimpleNotificationService" />
 		<PackageReference Include="AWSSDK.SecurityToken" />
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json"  />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents " />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
@@ -17,6 +20,6 @@
 
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\CodingChallenge.Application\CodingChallenge.Application.csproj"/>
+		<ProjectReference Include="..\CodingChallenge.Application\CodingChallenge.Application.csproj" />
 	</ItemGroup>
 </Project>

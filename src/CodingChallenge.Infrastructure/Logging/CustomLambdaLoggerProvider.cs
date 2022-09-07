@@ -1,7 +1,8 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 
-namespace CodingChallenge.GetItemsLambda.Logger;
+namespace CodingChallenge.Infrastructure.Logging;
+
 public class CustomLambdaLoggerProvider : ILoggerProvider
 {
     private readonly CustomLambdaLoggerConfig _config;

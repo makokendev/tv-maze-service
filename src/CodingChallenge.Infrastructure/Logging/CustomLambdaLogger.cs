@@ -1,8 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace CodingChallenge.GetItemsLambda.Logger;
-public record LogEntry(string Message,string Environment,string Platform,string System,string Subsystem,string Version,LogLevel LogLevel,int LogEventId,string LogName);
+namespace CodingChallenge.Infrastructure.Logging;
+
+public record LogEntry(string Message, string Environment, string Platform, string System, string Subsystem, string Version, LogLevel LogLevel, int LogEventId, string LogName);
 
 public class CustomLambdaLogger : ILogger
 {
@@ -36,7 +37,7 @@ public class CustomLambdaLogger : ILogger
                 _config.InfrastructureProject.Platform,
                 _config.InfrastructureProject.System,
                 _config.InfrastructureProject.Subsystem,
-                _config.InfrastructureProject.Version,logLevel,eventId.Id,_name)));
+                _config.InfrastructureProject.Version, logLevel, eventId.Id, _name)));
 
     }
 }
