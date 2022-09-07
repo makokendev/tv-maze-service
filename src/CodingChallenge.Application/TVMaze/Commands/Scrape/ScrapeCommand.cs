@@ -18,17 +18,17 @@ public record ScrapeCommandResponse(int Index) : TVMazeScrapeCommandResponseBase
 
 public class ScrapeCommandHandler : IRequestHandler<ScrapeCommand, ScrapeCommandResponse>
 {
+
+    private readonly ITVMazeRecordRepository _repo;
+    private readonly ILogger _logger;
+    private readonly IMapper _mapper;
+
     public ScrapeCommandHandler(ITVMazeRecordRepository repo, ILogger logger, IMapper mapper)
     {
         _repo = repo;
         _logger = logger;
         _mapper = mapper;
     }
-
-    public ITVMazeRecordRepository _repo { get; }
-    public ILogger _logger { get; }
-
-    public IMapper _mapper { get; }
 
     public async Task<ScrapeCommandResponse> Handle(ScrapeCommand request, CancellationToken cancellationToken)
     {

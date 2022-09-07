@@ -49,11 +49,9 @@ partial class Program
     {
         var loggerFactory = LoggerFactory.Create(
                 builder => builder
-                            // add debug output as logging target
-                            //.AddDebug()
                             .AddConsole()
-                            // set minimum level to log
                             .SetMinimumLevel(LogLevel.Information));
+
         logger = loggerFactory.CreateLogger("CodingChallenge Console App");
     }
 }

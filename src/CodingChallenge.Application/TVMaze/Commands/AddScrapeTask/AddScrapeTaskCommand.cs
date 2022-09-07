@@ -5,21 +5,21 @@ using Microsoft.Extensions.Logging;
 
 namespace CodingChallenge.Application.TVMaze.Commands.Burn;
 
-public record AddScrapeTaskCommand(int StartIndex, int EndIndex, int TryCount) : TVMazeScrapeCommandBase(), IRequest<AddScrapeTaskCommandResponse>;
+public record AddScrapeTaskCommand(int StartIndex, int EndIndex, int TryCount) : TVMazeScrapeCommandBase(), 
+    IRequest<AddScrapeTaskCommandResponse>;
 
 public record AddScrapeTaskCommandResponse(int StartIndex, int EndIndex) : TVMazeScrapeCommandResponseBase();
 
 public class AddScrapeTaskCommandHandler : IRequestHandler<AddScrapeTaskCommand, AddScrapeTaskCommandResponse>
 {
+    private readonly ITVMazeRecordRepository _repo;
+    private readonly ILogger _logger;
+
     public AddScrapeTaskCommandHandler(ITVMazeRecordRepository repo, ILogger logger)
     {
         _repo = repo;
         _logger = logger;
     }
-
-    public ITVMazeRecordRepository _repo { get; }
-    public ILogger _logger { get; }
-
 
     public async Task<AddScrapeTaskCommandResponse> Handle(AddScrapeTaskCommand request, CancellationToken cancellationToken)
     {

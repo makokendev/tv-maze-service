@@ -7,7 +7,6 @@ namespace CodingChallenge.Console;
 public class TVMazeScrapeCommandController
 {
     private readonly ISender _mediator;
-
     private readonly ILogger _logger;
 
     public TVMazeScrapeCommandController(ILogger logger, ISender sender)

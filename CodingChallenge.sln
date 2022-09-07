@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.Application.UnitTests", "tests\CodingChallenge.Application.UnitTests\CodingChallenge.Application.UnitTests.csproj", "{E3BA8736-4DF8-44B7-8A52-ADC8699BE85F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.Console.UnitTests", "tests\CodingChallenge.Console.UnitTests\CodingChallenge.Console.UnitTests.csproj", "{59C07E0F-30B9-4C9A-B94D-69698916652E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.Cdk", "src\CodingChallenge.Cdk\CodingChallenge.Cdk.csproj", "{3A74BD7F-323A-49C7-AE62-25964D50C054}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.EventQueueProcessor", "src\CodingChallenge.EventQueueProcessor\CodingChallenge.EventQueueProcessor.csproj", "{48DBF935-C65E-47D7-A5C2-A91EA7BAF3E3}"
@@ -38,11 +36,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingChallenge.Api", "src\CodingChallenge.Api\CodingChallenge.Api.csproj", "{2EADA9F6-8B63-4023-BE79-EF40D4611EA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.Api", "src\CodingChallenge.Api\CodingChallenge.Api.csproj", "{2EADA9F6-8B63-4023-BE79-EF40D4611EA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingChallenge.Api.UnitTests", "tests\CodingChallenge.Api.UnitTests\CodingChallenge.Api.UnitTests.csproj", "{65630421-EDC3-4A57-8E40-6454D8124C8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.Api.UnitTests", "tests\CodingChallenge.Api.UnitTests\CodingChallenge.Api.UnitTests.csproj", "{65630421-EDC3-4A57-8E40-6454D8124C8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingChallenge.GetItemsLambda", "src\CodingChallenge.GetItemsLambda\CodingChallenge.GetItemsLambda.csproj", "{62914380-F36B-4B53-B07B-E3AD611FAEC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingChallenge.GetItemsLambda", "src\CodingChallenge.GetItemsLambda\CodingChallenge.GetItemsLambda.csproj", "{62914380-F36B-4B53-B07B-E3AD611FAEC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,10 +72,6 @@ Global
 		{E3BA8736-4DF8-44B7-8A52-ADC8699BE85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3BA8736-4DF8-44B7-8A52-ADC8699BE85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3BA8736-4DF8-44B7-8A52-ADC8699BE85F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59C07E0F-30B9-4C9A-B94D-69698916652E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59C07E0F-30B9-4C9A-B94D-69698916652E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59C07E0F-30B9-4C9A-B94D-69698916652E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59C07E0F-30B9-4C9A-B94D-69698916652E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A74BD7F-323A-49C7-AE62-25964D50C054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A74BD7F-323A-49C7-AE62-25964D50C054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A74BD7F-323A-49C7-AE62-25964D50C054}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -113,7 +107,6 @@ Global
 		{808E10E8-F9B5-4B97-9B79-F3CC1764F10C} = {EAED48B3-4A7C-4250-A7DC-A157FDCBB1DC}
 		{E22E5A9D-56EC-435E-9C1C-434F9E00FEDC} = {5A2249DF-3BEA-46C1-904C-7A45D6649A38}
 		{E3BA8736-4DF8-44B7-8A52-ADC8699BE85F} = {5A2249DF-3BEA-46C1-904C-7A45D6649A38}
-		{59C07E0F-30B9-4C9A-B94D-69698916652E} = {5A2249DF-3BEA-46C1-904C-7A45D6649A38}
 		{3A74BD7F-323A-49C7-AE62-25964D50C054} = {EAED48B3-4A7C-4250-A7DC-A157FDCBB1DC}
 		{48DBF935-C65E-47D7-A5C2-A91EA7BAF3E3} = {EAED48B3-4A7C-4250-A7DC-A157FDCBB1DC}
 		{A4EBB675-F211-4B99-BEC4-ABFD9BA3E651} = {5A2249DF-3BEA-46C1-904C-7A45D6649A38}
