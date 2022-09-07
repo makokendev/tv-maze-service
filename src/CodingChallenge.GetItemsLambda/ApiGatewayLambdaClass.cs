@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 namespace CodingChallenge.GetItemsLambda;
 public class ApiGatewayLambdaClass
 {
+    const string pTokenKey = "pagetoken";
+    const string sizeKey = "size";
     public ILogger logger;
     public IConfiguration configuration;
     public IServiceProvider serviceProvider;
@@ -57,9 +59,6 @@ public class ApiGatewayLambdaClass
 
     public async Task<APIGatewayProxyResponse> GetListHandlerAsync(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
     {
-        const string pTokenKey = "pagetoken";
-        const string sizeKey = "size";
-
         try
         {
             var runner = serviceProvider.GetService<TVMazeLambdaRunner>();
@@ -68,23 +67,18 @@ public class ApiGatewayLambdaClass
                 logger.LogInformation("runner is null");
                 throw new NullReferenceException("runner is null... TVMazeLambdaRunner is not mapped");
             }
-            int size=0;
+            int size = 0;
             string? sizeString = null;
             string? pToken = null;
-            apigProxyEvent.QueryStringParameters.TryGetValue(pTokenKey, out pToken);
-            apigProxyEvent.QueryStringParameters.TryGetValue(sizeKey, out sizeString);
+            if (apigProxyEvent.QueryStringParameters != null)
+            {
+                apigProxyEvent.QueryStringParameters.TryGetValue(pTokenKey, out pToken);
+                apigProxyEvent.QueryStringParameters.TryGetValue(sizeKey, out sizeString);
+            }
             //todo - I know this sucks
-            if (sizeString != null)
-            {
-                Int32.TryParse(sizeString, out size);
-            }
-            if (size < 0)
-            {
-                size = 10;
-            }
-            if(string.IsNullOrWhiteSpace(pToken)){
-                pToken = null;
-            }
+            Int32.TryParse(sizeString, out size);
+            size = size <= 0 ? 10 : size;
+            pToken = string.IsNullOrWhiteSpace(pToken) ? null : pToken;
             var paginatedResponse = await runner.GetList(new Application.TVMaze.Queries.GetTVMazeItemsQuery(size, pToken));
             return SuccessResponse(paginatedResponse);
         }

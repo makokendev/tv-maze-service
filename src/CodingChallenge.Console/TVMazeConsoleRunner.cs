@@ -7,7 +7,7 @@ namespace CodingChallenge.Console;
 
 public class TVMazeConsoleRunner
 {
-    public const int TotalNumberOfRecords = 100;
+    public const int TotalNumberOfRecords = 10;
     public const int ItemPerMessage = 10;
     ILogger _logger;
     TVMazeScrapeCommandController _TVMazeRecordCommandHandler;
