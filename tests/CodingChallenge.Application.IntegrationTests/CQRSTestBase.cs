@@ -30,9 +30,9 @@ public class CQRSTestBase : TestBase
         var command = new GetTVMazeItemByIndexQuery(index.ToString());
         return await Sender!.Send(command);
     }
-    public async Task<PagedList<TVMazeRecordDto>> GetItemListAsync(int index = 0)
+    public async Task<PagedList<TVMazeRecordDto>> GetItemListAsync(int index = 0,string? paginationToken=null)
     {
-        var command = new GetTVMazeItemsQuery(index,null);
+        var command = new GetTVMazeItemsQuery(index,paginationToken);
         return await Sender!.Send(command);
     }
 

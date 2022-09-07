@@ -9,8 +9,8 @@ public class GetByTokenIdQueryTests : CQRSTestBase
     {
         //var scrapeResponse = await SendScrapeCommandAsync(1);
         //var getIndex = await GetItemByIndexCommandAsync(scrapeResponse.Index);
-        var getList = await GetItemListAsync(5);
+        var getList = await GetItemListAsync(5,"{\"TVMazeIndex\":{\"N\":\"79\"}}");
 
-        Assert.Equal(getList.TotalCount, 1);
+        Assert.NotEqual(getList.PageSize.ToString(),getList.PaginationToken);
     }
 }

@@ -52,12 +52,39 @@ public class ApplicationDynamoDBBase<T> : DynamoDBRepository, IApplicationDynamo
         {
             config.PaginationToken = paginationToken;
         }
-        var query = table.Scan(config);
-        var paginationToken2 = query.PaginationToken;
-        var items = await query.GetNextSetAsync();
+        var results = table.Scan(config);
+        var items = await results.GetNextSetAsync();
         IEnumerable<T> employees = Context.FromDocuments<T>(items);
         var returnList = employees.ToList();
-        return new Tuple<List<T>, string>(returnList, paginationToken2);
+        return new Tuple<List<T>, string>(returnList, results.PaginationToken);
+    }
+    public async Task<Tuple<List<T>, string>> GetListViaQueryAsync(int limit, string? paginationToken = null)
+    {
+
+        var table = Context.GetTargetTable<T>(DynamoDBOperationConfig);
+        //var filter = new QueryFilter("TVMazeIndex", QueryOperator.GreaterThan,0);
+        var config = new QueryOperationConfig();
+        config.Limit = limit;
+        //config.Filter = filter;
+        config.KeyExpression = new Expression
+        {
+            ExpressionStatement = "TVMazeIndex = :pk",
+            ExpressionAttributeValues =
+            {
+                { "pk", 1 }
+            }
+        };
+
+        //config. Filter = new QueryFilter(sortKeyField, QueryOperator.Equal, 2012);    
+        if (!string.IsNullOrWhiteSpace(paginationToken))
+        {
+            config.PaginationToken = paginationToken;
+        }
+        var results = table.Query(config);
+        var items = await results.GetNextSetAsync();
+        IEnumerable<T> employees = Context.FromDocuments<T>(items);
+        var returnList = employees.ToList();
+        return new Tuple<List<T>, string>(returnList, results.PaginationToken);
     }
 
     public async Task<List<T>> GetBySortKeyAsync(string sortKeyField, string sortKeyValue)

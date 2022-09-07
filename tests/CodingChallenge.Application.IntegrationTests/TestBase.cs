@@ -28,8 +28,8 @@ public class TestBase
         awsApplication = new AWSAppProject();
         Configuration.GetSection(Constants.APPLICATION_ENVIRONMENT_VAR_PREFIX).Bind(awsApplication);
         awsApplication.Environment = "dev";
-        awsApplication.Platform = "assignments";
-        awsApplication.System = "rtl";
+        awsApplication.Platform = "ron";
+        awsApplication.System = "rtl1";
         awsApplication.Subsystem = "tvmaze";
     }
 
