@@ -11,6 +11,7 @@ namespace CodingChallenge.Cdk.Stacks;
 public sealed class InfraStack : Stack
 {
     public const string EcrRepoSuffix = "processor-lambda";
+    public const string ApiRepoSuffix = "api-lambda";
     public const string GetListEcrRepoSuffix = "getlist-lambda";
     public const string eventTopicSuffix = "eventtopic";
     // public const string dynamoDBTableSuffix = nameof(Infrastructure.Persistence.TVMazeRecord.TVMazeRecordDataModel);
@@ -20,6 +21,7 @@ public sealed class InfraStack : Stack
     {
         CreateECRRepoForEventProcessor(awsApplication);
         CreateECRRepoForGetList(awsApplication);
+        CreateECRRepoForApi(awsApplication);
         CreateEventTopic(awsApplication);
         SetupDocumentationS3Bucket(awsApplication);
     }
@@ -73,6 +75,17 @@ public sealed class InfraStack : Stack
         });
         awsApplication.SetCfOutput(this, $"{GetListEcrRepoSuffix}-{arnSuffixValue}", eventProcessorECRRepo.RepositoryArn);
         awsApplication.SetCfOutput(this, $"{GetListEcrRepoSuffix}-name", eventProcessorECRRepo.RepositoryName);
+
+    }
+    public void CreateECRRepoForApi(AWSAppProject awsApplication)
+    {
+        var repoName = awsApplication.GetResourceName(ApiRepoSuffix);
+        var eventProcessorECRRepo = new Repository(this, repoName, new RepositoryProps()
+        {
+            RepositoryName = repoName
+        });
+        awsApplication.SetCfOutput(this, $"{ApiRepoSuffix}-{arnSuffixValue}", eventProcessorECRRepo.RepositoryArn);
+        awsApplication.SetCfOutput(this, $"{ApiRepoSuffix}-name", eventProcessorECRRepo.RepositoryName);
 
     }
 }

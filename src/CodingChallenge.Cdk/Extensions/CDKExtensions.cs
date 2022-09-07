@@ -1,5 +1,7 @@
 using Amazon.CDK;
+using Amazon.CDK.AWS.SAM;
 using CodingChallenge.Infrastructure;
+using static Amazon.CDK.AWS.SAM.CfnFunction;
 
 namespace CodingChallenge.Cdk.Extensions;
 
@@ -18,5 +20,18 @@ public static class CDKExtensions
             DomainName = app.Node.TryGetContext("DomainName").ToString()!
         };
         return awsApplication;
+    }
+    public static EventSourceProperty GetWebApiEventSourceProperty(this CfnApi webapi, string method, string path)
+    {
+        return new EventSourceProperty()
+        {
+            Type = "Api",
+            Properties = new ApiEventProperty()
+            {
+                Method = method,
+                Path = path,
+                RestApiId = webapi.Ref
+            }
+        };
     }
 }

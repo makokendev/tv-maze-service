@@ -35,6 +35,7 @@
 		<PackageVersion Include="Amazon.Lambda.APIGatewayEvents" Version="2.5.0" />
 		<PackageVersion Include="Amazon.Lambda.Serialization.Json" Version="2.1.0" />
 		<PackageVersion Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
+		<PackageVersion Include="Amazon.Lambda.AspNetCoreServer" Version="5.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
