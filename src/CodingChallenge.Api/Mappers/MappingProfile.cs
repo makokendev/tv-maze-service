@@ -18,6 +18,8 @@ public class MappingProfile : Profile
 
     private void SetupMapping()
     {
+        CreateMap<PagedList<TVMazeRecordDto>, PagedList<ShowResponse>>();
+
         CreateMap<TVMazeRecordDto, ShowResponse>()
             .ForMember(dest => dest.Id, a => a.MapFrom(o => o.Index))
             .ForMember(dest => dest.Cast, a => a.MapFrom(o => o.CastList));
@@ -26,7 +28,5 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Id, a => a.MapFrom(o => o.person.id))
             .ForMember(dest => dest.Name, a => a.MapFrom(o => o.person.name))
             .ForMember(dest => dest.BirthDate, a => a.MapFrom(o => o.person.birthday));
-
     }
-
 }
