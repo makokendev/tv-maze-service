@@ -19,7 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodingChallenge.Infrastructure\CodingChallenge.Infrastructure.csproj">
-      <PrivateAssets>all</PrivateAssets>
+      
     </ProjectReference>
     <ProjectReference Include="..\CodingChallenge.GetItemsLambda\CodingChallenge.GetItemsLambda.csproj">
       <PrivateAssets>all</PrivateAssets>

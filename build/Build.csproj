@@ -18,6 +18,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\src\CodingChallenge.Cdk\CodingChallenge.Cdk.csproj" />
-		<ProjectReference Include="..\src\CodingChallenge.Infrastructure\CodingChallenge.Infrastructure.csproj" />
+		<!-- <ProjectReference Include="..\src\CodingChallenge.Infrastructure\CodingChallenge.Infrastructure.csproj" /> -->
 	</ItemGroup>
 </Project>
