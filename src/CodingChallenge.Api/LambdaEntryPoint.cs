@@ -1,11 +1,11 @@
-namespace CodingChallenge.Api
+using Amazon.Lambda.AspNetCoreServer;
+
+namespace CodingChallenge.Api;
+
+public class LambdaEntryPoint : APIGatewayProxyFunction
 {
-    public class LambdaEntryPoint : Amazon.Lambda.AspNetCoreServer.APIGatewayProxyFunction
+    protected override void Init(IWebHostBuilder builder)
     {
-        protected override void Init(IWebHostBuilder builder)
-        {
-            builder
-                .UseStartup<Startup>();
-        }
+        builder.UseStartup<Startup>();
     }
 }

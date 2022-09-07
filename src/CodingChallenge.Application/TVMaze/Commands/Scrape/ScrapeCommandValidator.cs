@@ -1,7 +1,6 @@
-﻿using CodingChallenge.Application.TVMaze.Commands.Scrape;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace CodingChallenge.Application.TVMaze.Commands.Mint;
+namespace CodingChallenge.Application.TVMaze.Commands.Scrape;
 
 public class ScrapeCommandValidator : AbstractValidator<ScrapeCommand>
 {

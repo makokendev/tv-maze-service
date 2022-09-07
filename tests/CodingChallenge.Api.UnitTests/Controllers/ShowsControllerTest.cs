@@ -20,14 +20,12 @@ namespace TvMaze.Service.Api.Tests.Controllers
         private readonly Fixture _fixture;
         private readonly ISender _mediator;
         private readonly IMapper _mapper;
-        private readonly IServiceProvider _provider;
         private readonly ShowController _controller;
 
         public ShowsControllerTest()
         {
             _fixture = new();
             _mediator = Substitute.For<ISender>();
-            _provider = Substitute.For<IServiceProvider>();
             _mapper = Substitute.For<IMapper>();
 
             _controller = new(_mediator, _mapper, Substitute.For<ILogger<ShowController>>());

@@ -13,7 +13,6 @@ public class MappingProfile : Profile
         typeof(MappingProfile).Assembly.ApplyMappingsFromAssembly(this);
 
         SetupMapping();
-
     }
 
     private void SetupMapping()

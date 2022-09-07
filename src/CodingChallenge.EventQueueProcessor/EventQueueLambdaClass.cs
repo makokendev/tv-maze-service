@@ -3,8 +3,8 @@ using Amazon.Lambda.SQSEvents;
 using CodingChallenge.Application;
 using CodingChallenge.Application.TVMaze.Commands.Burn;
 using CodingChallenge.Application.TVMaze.Commands.Scrape;
-using CodingChallenge.EventQueueProcessor.Logger;
 using CodingChallenge.Infrastructure;
+using CodingChallenge.Infrastructure.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -73,9 +73,11 @@ public class EventQueueLambdaClass
             try
             {
                 logger.LogInformation($"log debug {record.Body}");
+
                 var taskObject = JsonConvert.DeserializeObject<AddScrapeTaskCommand>(record.Body);
-                var startIndex = Convert.ToInt32(taskObject!.StartIndex);
-                var endIndex = Convert.ToInt32(taskObject.EndIndex);
+                int startIndex = Convert.ToInt32(taskObject!.StartIndex);
+                int endIndex = Convert.ToInt32(taskObject.EndIndex);
+
                 var results = new List<ScrapeCommandResponse>();
                 var tasks = new List<Task>();
 
@@ -109,6 +111,7 @@ public class EventQueueLambdaClass
                     if (!result.IsSuccess)
                     {
                         logger.LogInformation($"{result.Index} -- NOT SUCCESS. Will retry if already not in db or try count not exceeded.");
+
                         if (taskObject.TryCount < TryCountLimit)
                         {
                             var indexResult = await runner!.GetItemByIdAsync(new Application.TVMaze.Queries.GetTVMazeItemByIndexQuery(result.Index.ToString()));
@@ -125,7 +128,7 @@ public class EventQueueLambdaClass
                             {
                                 logger.LogInformation($"{result.Index} -- Item already exists in database");
                             }
-                        }else{
+                        } else {
                             logger.LogInformation($"{result.Index} -- Try Count limit exceeded.");
                         }
                     }
