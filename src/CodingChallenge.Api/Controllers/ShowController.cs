@@ -63,6 +63,6 @@ public class ShowController : Controller
             return NotFound(NotFoundResponse);
         }
 
-        return Ok(_mapper.Map<PagedList<ShowResponse>>(shows));
+        return Ok(shows);
     }
 }
