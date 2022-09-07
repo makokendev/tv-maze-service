@@ -29,7 +29,7 @@ public class ShowController : Controller
         _logger = logger;
     }
 
-    [HttpGet("{id:string}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(typeof(ShowResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAsync(
@@ -49,7 +49,7 @@ public class ShowController : Controller
 
 
 
-    [HttpGet("getall/{pageSize:int}/{paginationToken:string}")]
+    [HttpGet("getall/{pageSize:int}/{paginationToken}")]
     [ProducesResponseType(typeof(PagedList<ShowResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListAsync(
