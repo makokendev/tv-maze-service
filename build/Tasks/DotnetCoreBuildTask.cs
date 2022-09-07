@@ -23,7 +23,7 @@ public sealed class DotnetCoreBuildTask : FrostingTask<BuildContext>
             MSBuildSettings = msBuildSettings,
             NoRestore = true,
             NoLogo = true,
-            ArgumentCustomization = args => args.Append($"/nodeReuse:false -p:Version={context.Config.AwsApplication.Version} -p:UseSharedCompilation=false")
+            ArgumentCustomization = args => args.Append($"/nodeReuse:false -p:Version={context.Config.AwsApplication.Version} -p:UseSharedCompilation=false -maxcpucount:1")
         };
 
         if (!string.IsNullOrEmpty(context.Config.DotnetSettings.DotnetFramework))
