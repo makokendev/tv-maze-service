@@ -47,14 +47,12 @@ public class ShowController : Controller
         return Ok(_mapper.Map<ShowResponse>(show));
     }
 
-
-
     [HttpGet("getall/{pageSize:int}/{paginationToken}")]
     [ProducesResponseType(typeof(PagedList<ShowResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListAsync(
         [FromRoute] int pageSize,
-        [FromRoute] string paginationToken,
+        [FromRoute] string? paginationToken,
         CancellationToken cancellationToken)
     {
         var shows = await _mediator.Send(new GetTVMazeItemsQuery(pageSize, paginationToken), cancellationToken);

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
-
 namespace CodingChallenge.Api
 {
     public class LambdaEntryPoint : Amazon.Lambda.AspNetCoreServer.APIGatewayProxyFunction
