@@ -3,15 +3,21 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 This project is a demo solution for the TvMaze coding challenge outlined in the TvMazeScraper.pdf found in the root of the repository.
-Instead of a more traditional approach of using a concurrent HttpClient along with Polly (for handling retries / backoff policy) I decided to instead use an existing AWS cloud solution template, and so was able to quickly spin up a few AWS services to handle the scraping work against TvMaze API.
-The basic idea here is to use SQS for populating a queue of scraping requests. I can then let AWS scale on its own as many lambda functions as needed to process all the scraping requests from that queue. DynamoDb is used for persisting the data. 
+
+The implementation is making use an existing AWS cloud solution template, which allows to quickly spin up AWS services to handle the scraping work and serve the results with a web api.
+
+The basic idea here is to use SQS for populating a queue of scrape request messages. 
+A message handler (lamdba function) is then picking up messages from the queue and making the actual scraping work.
+The lambda function can then be scaled to finish the scrape work in less than 5 minutes.
+DynamoDb table is used for persisting the data. 
+AWS API Gateway and .NET 6 Web API serve the data from the same DynamoDb table.
 
 ### Technologies
 
 * .NET 6.0
 * AWS CDK
 * CakeBuild
-* AWS SQS
+* AWS SQS/SNS
 * AWS DynamoDb
 * AWS API Gateway
 
@@ -24,6 +30,26 @@ The basic idea here is to use SQS for populating a queue of scraping requests. I
 * [AWS](https://aws.amazon.com/) is the cloud platform where the solution is realised. 
   * Cloud Native (serverless) components are used such a [SNS](https://aws.amazon.com/sns/), [SQS](https://aws.amazon.com/sns/), [DynamoDB](https://aws.amazon.com/dynamodb/), [API Gateway](https://aws.amazon.com/api-gateway/).
 
+### Prerequisites
+
+In order to deploy this project, an AWS account is required, as well as setting up credentials and named profile.
+
+* Sign up to AWS and create IAM user account and credentials https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html
+* Install the AWS CLI, directions can be found here: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+* Configure a named profile, with the name "" https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
+* Use the credentials you downloaded in step 1 when creating the user credentials
+
+
+### Scraper
+
+* The TvMaze Scraper is currently a console application which can be executed locally.
+* The console app is adding as many scrape messages as required to a queue.
+* The EventQueueProcessor is the message handler, and is in charge of making the api calls to TvMaze
+* The results are stored in DynamoDb 
+
+### API
+
+* The API is pulling data from DynamoDb and returning a paged list of results.
 
 ### Build
 
@@ -46,4 +72,5 @@ The basic idea here is to use SQS for populating a queue of scraping requests. I
 * Infra Stack must be deployed first. 
 * Database Stack is deployed after infra stack. 
 * Main/Application Stack is deployed last as it has dependencies on the Infra & Database stacks.
+
 
