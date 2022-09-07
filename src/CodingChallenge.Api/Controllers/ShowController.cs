@@ -47,7 +47,7 @@ public class ShowController : Controller
         return Ok(_mapper.Map<ShowResponse>(show));
     }
 
-    [HttpGet("getall/{pageSize:int}/{paginationToken}")]
+    [HttpGet("getall/{pageSize:int}/{paginationToken?}")]
     [ProducesResponseType(typeof(PagedList<ShowResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetListAsync(
