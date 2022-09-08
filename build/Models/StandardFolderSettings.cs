@@ -13,7 +13,7 @@ public class StandardFolderSettings
     public string TestsFullPath { get; private set; }
     public string PublishDirFullPath { get; private set; }
     public string ArtifactsDirFullPath { get; private set; }
-    
+    public string CdkDirFullPath { get; private set; }
 
     public StandardFolderSettings(ICakeContext cakeContext)
     {
@@ -24,6 +24,7 @@ public class StandardFolderSettings
         TestsFullPath = System.IO.Path.GetFullPath(cakeContext.Directory("../tests"));
         PublishDirFullPath = System.IO.Path.GetFullPath(cakeContext.Directory("../publish"));
         ArtifactsDirFullPath = System.IO.Path.GetFullPath(cakeContext.Directory("../artifacts"));
+        CdkDirFullPath = System.IO.Path.GetFullPath(cakeContext.Directory("../.cdk"));
     }
 }
 
