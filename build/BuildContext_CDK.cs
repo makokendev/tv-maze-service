@@ -73,6 +73,7 @@ public partial class BuildContext
         {
             arguments.Append($"--platform={platform}");
         }
+        arguments.Append($"--push");
         arguments.Append($"{folderPath}");
         _context.Information($"arguments -- docker {arguments.Render()}");
 
