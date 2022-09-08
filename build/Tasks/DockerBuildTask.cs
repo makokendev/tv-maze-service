@@ -22,20 +22,23 @@ public sealed class DockerBuildTask : FrostingTask<BuildContext>
             }
             foreach (var dockerSetting in projectSetting.DockerImageSettings)
             {
-                var dockerFilePath = System.IO.Path.Combine(context.Config.StandardFolders.PublishDirFullPath, projectSetting.ProjectName);
+                var dockerFolderPath = System.IO.Path.Combine(context.Config.StandardFolders.PublishDirFullPath, projectSetting.ProjectName);
                 var tagName = context.Config.AwsApplication.GetResourceName(dockerSetting.DockerRepoNameSuffix);
                 var dockerBuildSettings = new DockerImageBuildSettings()
                 {
-                    Tag = new string[] { $"{tagName}" }
+                    Tag = new string[] { $"{tagName}" },
+                    Platform = "linux/arm64"
                 };
                 var dockerFileName = dockerSetting.DockerFileName;
-
+                string? dockerFilePath=null;
                 if (!string.IsNullOrWhiteSpace(dockerFileName))
                 {
-                    dockerBuildSettings.File = System.IO.Path.Combine(dockerFilePath,dockerFileName);
+                    dockerBuildSettings.File = System.IO.Path.Combine(dockerFolderPath,dockerFileName);
+                    dockerFilePath = System.IO.Path.Combine(dockerFolderPath,dockerFileName);
                 }
-                context.Information($"docker file path is : {dockerFilePath} --- File name : {dockerFileName}");
-                context.DockerBuild(dockerBuildSettings, dockerFilePath);
+                context.Information($"docker file path is : {dockerFolderPath} --- File name : {dockerFileName}");
+                //context.DockerBuild(dockerBuildSettings, dockerFilePath);
+                context.DockerXBuild(tagName,dockerFolderPath,dockerFilePath,"linux/arm64");
             }
         }
     }

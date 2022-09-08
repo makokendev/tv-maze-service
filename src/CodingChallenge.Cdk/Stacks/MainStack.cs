@@ -20,7 +20,7 @@ public sealed partial class MainStack : Stack
 
         ITopic eventTopic = GetTopicReference(awsApplication);
         SetupEventProcessor(awsApplication, eventTopic);
-        SetupApiGateway(awsApplication, eventTopic);
+        //SetupApiGateway(awsApplication, eventTopic);
     }
 
     private ITopic GetTopicReference(AWSAppProject awsApplication)

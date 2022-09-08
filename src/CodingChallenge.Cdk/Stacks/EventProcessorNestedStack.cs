@@ -39,7 +39,7 @@ public sealed class EventProcessorNestedStack : Amazon.CDK.NestedStack
         {
             FunctionNameSuffix = functionSuffix.ToLower(),
             Memory = 2048,
-            ReservedConcurrentExecutions = 60,
+            ReservedConcurrentExecutions = 2,
             Timeout = 30,
             RoleArn = roleArn,
             ImageUri = repoUri,

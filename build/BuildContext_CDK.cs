@@ -22,7 +22,7 @@ public partial class BuildContext
         }
         return retString;
     }
-    public void DeployStackLinux(ProjectSettings projectSetting, string stackname)
+    public void DeployStack(ProjectSettings projectSetting, string stackname)
     {
         var stackFullPath = System.IO.Path.Combine(this.Config.StandardFolders.RootFullPath, $"src\\{projectSetting.ProjectName}\\bin\\{Config.DotnetSettings.DotnetConfiguration}\\{Config.DotnetSettings.DotnetFramework}\\{projectSetting.ProjectName}.dll");
         this.Information($"Stack Full Path is {stackFullPath}");
@@ -54,40 +54,39 @@ public partial class BuildContext
 
         _context.Information($"output -- cdk {arguments.Render()}");
     }
-    public void DeployStack(ProjectSettings projectSetting, string stackname)
-    {
-        var stackFullPath = System.IO.Path.Combine(this.Config.StandardFolders.RootFullPath, $"src\\{projectSetting.ProjectName}\\bin\\{Config.DotnetSettings.DotnetConfiguration}\\{Config.DotnetSettings.DotnetFramework}\\{projectSetting.ProjectName}.dll");
-        this.Information($"Stack Full Path is {stackFullPath}");
-        var cdkAppPath = $"dotnet {stackFullPath}";
-        _context.Information($"cdk app path is {cdkAppPath}");
 
-        var parameterOverrides = GetCdkParamOverrides()!;
-        _context.Information($"param over {parameterOverrides} ... stackname : {stackname}");
+
+
+
+    public void DockerXBuild(string tag, string folderPath, string? dockerFilePath = null,string? platform=null)
+    {
 
         var arguments = new ProcessArgumentBuilder()
-                    .Append("deploy")
-                    .Append("--require-approval=never")
-                    .Append("--verbose")
-                    .Append($"-o {this.Config.StandardFolders.CdkDirFullPath}")
-                    .Append($"--app \"{cdkAppPath}\"")
-                    .Append($"{stackname}")
-                    .Append($"{parameterOverrides}")
-                    ;
+                    .Append("buildx build")
+                    .Append($"-t {tag}");
 
-        _context.Information($"arguments -- cdk {arguments.Render()}");
+        if (!string.IsNullOrWhiteSpace(dockerFilePath))
+        {
+            arguments.Append($"-f {dockerFilePath}");
+        }
+        if (!string.IsNullOrWhiteSpace(platform))
+        {
+            arguments.Append($"--platform={platform}");
+        }
+        arguments.Append($"{folderPath}");
+        _context.Information($"arguments -- docker {arguments.Render()}");
+
+        _context.StartProcess(
+             "docker",
+             new ProcessSettings
+             {
+                 Arguments = arguments,
+                 RedirectStandardOutput = true
+             },
+             out _
+         );
 
 
-        _ =
-        _context.StartPowershellScript(
-            "cdk.ps1",
-            new PowershellSettings
-            {
-                Arguments = arguments,
-                BypassExecutionPolicy = true,
-
-            }
-        );
-
-        _context.Information($"output -- cdk {arguments.Render()}");
+        _context.Information($"output -- docker {arguments.Render()}");
     }
 }
