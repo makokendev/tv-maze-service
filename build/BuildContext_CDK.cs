@@ -63,7 +63,9 @@ public partial class BuildContext
 
         var arguments = new ProcessArgumentBuilder()
                     .Append("buildx build")
-                    .Append($"-t {tag}");
+                    .Append($"-t {tag}")
+                    .Append($"-t {tag}:latest")
+                    .Append($"-t {tag}:{this.Config.AwsApplication.Version}");
 
         if (!string.IsNullOrWhiteSpace(dockerFilePath))
         {
@@ -73,7 +75,7 @@ public partial class BuildContext
         {
             arguments.Append($"--platform={platform}");
         }
-        arguments.Append($"--push");
+        //arguments.Append($"--push");
         arguments.Append($"{folderPath}");
         _context.Information($"arguments -- docker {arguments.Render()}");
 

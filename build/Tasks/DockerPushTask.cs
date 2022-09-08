@@ -26,8 +26,8 @@ public sealed class DockerEcrPushTask : FrostingTask<BuildContext>
                     var ecrTagNameBase = $"{dockerSetting.AwsAccountNumber}.dkr.ecr.{dockerSetting.AwsRegion}.amazonaws.com/{buildTagName}";
                     var ecrTagNameVersion = $"{ecrTagNameBase}:{context.Config.AwsApplication.Version}";
                     var ecrTagNameLatest = $"{ecrTagNameBase}:{context.Config.AwsApplication.Version}";
-                    context.DockerTag(buildTagName,ecrTagNameVersion);
-                    context.DockerTag(buildTagName,ecrTagNameLatest);
+                    // context.DockerTag(buildTagName,ecrTagNameVersion);
+                    // context.DockerTag(buildTagName,ecrTagNameLatest);
                     context.DockerEcrLogin(dockerSetting.AwsAccountNumber,dockerSetting.AwsRegion);
                     context.DockerPush(ecrTagNameVersion);
                     context.DockerPush(ecrTagNameLatest);
