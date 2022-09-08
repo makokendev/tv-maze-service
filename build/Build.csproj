@@ -9,8 +9,9 @@
 		<PackageReference Include="Cake.Frosting" />
 		<PackageReference Include="Cake.Json" />
 		<PackageReference Include="Cake.Yaml" />
-		<PackageReference Include="Cake.Docker" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Cake.Docker" />
+    <PackageReference Include="Cake.Powershell" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
 		<PackageReference Include="AWSSDK.S3" />
 		<PackageReference Include="AWSSDK.SecurityToken" />

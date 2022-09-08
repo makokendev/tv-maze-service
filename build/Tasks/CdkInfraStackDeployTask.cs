@@ -16,7 +16,7 @@ public sealed class CdkInfraStackDeployTask : FrostingTask<BuildContext>
         {
             if (projectSetting.RunCdkDeploy == true)
             {
-                context.Information($"{logPrefix}start cdk deployment for {projectSetting.ProjectName}");
+                context.Information($"{logPrefix} start cdk deployment for {projectSetting.ProjectName}");
                 context.DeployStack(projectSetting, context.Config.AwsApplication.GetDefaultInfraStackName());
             }
             else

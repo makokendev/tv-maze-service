@@ -60,7 +60,8 @@
 		<PackageVersion Include="Cake.Json" Version="7.0.1" />
 		<PackageVersion Include="Cake.Yaml" Version="4.0.0" />
 		<PackageVersion Include="Cake.Docker" Version="1.1.2" />
+		<PackageVersion Include="Cake.Powershell" Version="2.0.0" />
 		<PackageVersion Include="AWSSDK.S3" Version="3.7.9.14" />
-		<PackageVersion Include="Markdig" Version="0.30.2" />
+		<PackageVersion Include="Markdig" Version="0.30.3" />
 	</ItemGroup>
 </Project>

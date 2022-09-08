@@ -6,7 +6,7 @@ using Amazon.S3.Model;
 using Cake.Common.Diagnostics;
 using Cake.Frosting;
 using CodingChallenge.Cdk.Stacks;
-using Markdig;
+//using Markdig;
 using Newtonsoft.Json;
 
 namespace CodingChallenge.CakeBuild.Tasks;
@@ -52,7 +52,7 @@ public sealed class UploadDocumentationToStorage : AsyncFrostingTask<BuildContex
     private async Task CreateReadmeWebpage(BuildContext context)
     {
         var fileContent = await File.ReadAllTextAsync(Path.Combine(context.Config.StandardFolders.RootFullPath, "README.md"));
-        var result = Markdown.ToHtml(fileContent);
+        var result = fileContent; //Markdig.Markdown.ToHtml(fileContent);
         await File.WriteAllTextAsync(Path.Combine(context.Config.StandardFolders.RootFullPath, "README.html"), result);
     }
 

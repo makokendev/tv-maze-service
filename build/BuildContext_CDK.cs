@@ -1,6 +1,7 @@
 using Cake.Core;
 using Cake.Common;
 using Cake.Core.IO;
+using Cake.Powershell;
 using Cake.Common.Diagnostics;
 using CodingChallenge.CakeBuild.Models;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ public partial class BuildContext
     }
     public void DeployStack(ProjectSettings projectSetting, string stackname)
     {
-        var stackFullPath = System.IO.Path.Combine(this.Config.StandardFolders.RootFullPath, $"src/{projectSetting.ProjectName}/bin/{Config.DotnetSettings.DotnetConfiguration}/{Config.DotnetSettings.DotnetFramework}/{projectSetting.ProjectName}.dll");
+        var stackFullPath = System.IO.Path.Combine(this.Config.StandardFolders.RootFullPath, $"src\\{projectSetting.ProjectName}\\bin\\{Config.DotnetSettings.DotnetConfiguration}\\{Config.DotnetSettings.DotnetFramework}\\{projectSetting.ProjectName}.dll");
         this.Information($"Stack Full Path is {stackFullPath}");
         var cdkAppPath = $"dotnet {stackFullPath}";
         _context.Information($"cdk app path is {cdkAppPath}");
@@ -35,19 +36,24 @@ public partial class BuildContext
                     .Append("deploy")
                     .Append("--require-approval=never")
                     .Append("--verbose")
-                    .Append("-o ../.cdk")
+                    .Append("-o \"..\\.cdk\"")
                     .Append($"--app \"{cdkAppPath}\"")
                     .Append($"{stackname}")
-                    .Append($"{parameterOverrides}");
+                    .Append($"{parameterOverrides}")
+                    ;
+
+        _context.Information($"arguments -- cdk {arguments.Render()}");
+
+        
         _ =
-        _context.StartProcess(
-            "cdk",
-            new ProcessSettings
+        _context.StartPowershellScript(
+            "cdk.ps1",
+            new PowershellSettings
             {
                 Arguments = arguments,
-                RedirectStandardOutput = true
-            },
-            out _
+                BypassExecutionPolicy = true,
+                
+            }
         );
 
         _context.Information($"output -- cdk {arguments.Render()}");
