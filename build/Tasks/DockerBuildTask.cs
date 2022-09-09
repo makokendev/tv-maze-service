@@ -38,6 +38,7 @@ public sealed class DockerBuildTask : FrostingTask<BuildContext>
                 }
                 context.Information($"docker file path is : {dockerFolderPath} --- File name : {dockerFileName}");
                 //context.DockerBuild(dockerBuildSettings, dockerFilePath);
+                
                 context.DockerXBuild(tagName,dockerFolderPath,dockerFilePath,"linux/arm64");
             }
         }

@@ -24,7 +24,8 @@ public partial class BuildContext
     }
     public void DeployStack(ProjectSettings projectSetting, string stackname)
     {
-        var stackFullPath = System.IO.Path.Combine(this.Config.StandardFolders.RootFullPath, $"src\\{projectSetting.ProjectName}\\bin\\{Config.DotnetSettings.DotnetConfiguration}\\{Config.DotnetSettings.DotnetFramework}\\{projectSetting.ProjectName}.dll");
+        var relativePathCombine = System.IO.Path.Combine("src",projectSetting.ProjectName,"bin",Config.DotnetSettings.DotnetConfiguration,Config.DotnetSettings.DotnetFramework,projectSetting.ProjectName+".dll");
+        var stackFullPath = System.IO.Path.Combine(this.Config.StandardFolders.RootFullPath, relativePathCombine);
         this.Information($"Stack Full Path is {stackFullPath}");
         var cdkAppPath = $"dotnet {stackFullPath}";
         _context.Information($"cdk app path is {cdkAppPath}");
@@ -58,14 +59,17 @@ public partial class BuildContext
 
 
 
-    public void DockerXBuild(string tag, string folderPath, string? dockerFilePath = null,string? platform=null)
+    public void DockerXBuild(string tag, string folderPath,string? dockerFilePath = null, string? platform = null)
     {
-
+        
+        // var ecrTagNameVersion = $"{ecrTagNameBase}:{this.Config.AwsApplication.Version}";
+        // var ecrTagNameLatest = $"{ecrTagNameBase}:{this.Config.AwsApplication.Version}";
         var arguments = new ProcessArgumentBuilder()
                     .Append("buildx build")
-                    .Append($"-t {tag}")
-                    .Append($"-t {tag}:latest")
-                    .Append($"-t {tag}:{this.Config.AwsApplication.Version}");
+                    .Append($"-t {tag}");
+                    //.Append($"-t {tag}:latest")
+                    //.Append($"-t {tag}:{this.Config.AwsApplication.Version}");
+                   // .Append($"-t {ecrTagNameLatest}");
 
         if (!string.IsNullOrWhiteSpace(dockerFilePath))
         {
@@ -75,6 +79,7 @@ public partial class BuildContext
         {
             arguments.Append($"--platform={platform}");
         }
+        //arguments.Append($"--push");
         arguments.Append($"--load");
         arguments.Append($"{folderPath}");
         _context.Information($"arguments -- docker {arguments.Render()}");
