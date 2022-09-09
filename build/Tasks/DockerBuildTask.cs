@@ -18,7 +18,7 @@ public sealed class DockerBuildTask : FrostingTask<BuildContext>
              if (projectSetting.DockerImageSettings == null || !projectSetting.DockerImageSettings.Any())
             {
                 context.Information($"there is no DockerSettingsList");
-                continue;
+                continue; 
             }
             foreach (var dockerSetting in projectSetting.DockerImageSettings)
             {
